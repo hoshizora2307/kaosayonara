@@ -3,18 +3,22 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Goodbye KAO, From DAICHI</title>
+    <title>Farewell, My Love - KAO</title>
     <style>
         :root {
-            --primary-pink: #ffafbd;
-            --deep-pink: #ffc3a0;
+            --primary-pink: #ffb6c1; /* ライトピンク */
+            --deep-pink: #ff69b4; /* ホットピンク */
+            --dark-pink: #c71585; /* ミディアムバイオレットレッド */
             --text-color: #4a4a4a;
         }
 
         body {
             margin: 0;
             padding: 0;
-            background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
+            /* 動的なグラデーション背景 */
+            background: linear-gradient(-45deg, #ffafbd, #ffc3a0, #ffafbd, #ffc3a0);
+            background-size: 400% 400%;
+            animation: gradientBG 15s ease infinite;
             font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
             color: var(--text-color);
             min-height: 100vh;
@@ -23,92 +27,130 @@
             align-items: center;
             overflow-x: hidden;
             text-align: center;
-            position: relative; /* ハートの配置基準 */
+            position: relative;
+        }
+
+        /* 背景グラデーションのアニメーション */
+        @keyframes gradientBG {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
 
         .container {
             padding: 40px 20px;
             width: 100%;
             box-sizing: border-box;
-            z-index: 10; /* コンテンツを前面に */
+            z-index: 10;
         }
 
         h1 {
-            font-size: 2.5rem;
+            font-size: 2.8rem;
             color: #fff;
-            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
-            margin-bottom: 30px;
+            text-shadow: 0 0 10px rgba(255, 255, 255, 0.5); /* かすかに光る */
+            margin-bottom: 40px;
+            /* ふわっと現れるアニメーション */
+            animation: fadeInUp 1s ease-out;
         }
 
         .section {
-            background: rgba(255, 255, 255, 0.7);
-            padding: 25px;
-            border-radius: 20px;
-            margin-bottom: 20px;
-            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            backdrop-filter: blur(5px);
+            background: rgba(255, 255, 255, 0.5); /* より透明感を */
+            padding: 30px;
+            border-radius: 25px;
+            margin-bottom: 30px;
+            box-shadow: 0 15px 35px rgba(0,0,0,0.1);
+            backdrop-filter: blur(10px); /* ぼかしを強めに */
+            /* ふわっと現れるアニメーション */
+            animation: fadeInUp 1s ease-out calc(var(--order) * 0.3s) both;
+            border: 1px solid rgba(255, 255, 255, 0.3); /* かすかな枠線 */
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
         }
 
         .kao-praise {
-            border-left: 5px solid #ff1493;
+            border-left: 5px solid var(--deep-pink);
         }
-        .kao-praise h2 { color: #ff1493; }
+        .kao-praise h2 { color: var(--dark-pink); }
 
         .daichi-insult {
-            border-left: 5px solid #555;
-            background: rgba(0, 0, 0, 0.05);
+            border-left: 5px solid #666;
+            background: rgba(0, 0, 0, 0.08);
         }
-        .daichi-insult h2 { color: #333; }
+        .daichi-insult h2 { color: #444; }
 
         .counter-box {
             position: fixed;
-            top: 20px;
-            right: 20px;
-            background: rgba(255, 255, 255, 0.9);
-            padding: 10px 20px;
+            top: 25px;
+            right: 25px;
+            background: rgba(255, 255, 255, 0.85);
+            padding: 12px 25px;
             border-radius: 50px;
             font-weight: bold;
-            color: #ff1493;
-            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            color: var(--deep-pink);
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
             z-index: 100;
+            border: 1px solid rgba(255, 255, 255, 0.5);
         }
 
         /* タップで現れるハート */
         .tap-heart {
             position: absolute;
-            font-size: 2rem;
+            font-size: 2.2rem;
             pointer-events: none;
-            animation: moveUp 2s ease-out forwards;
+            animation: heartBurst 1.5s ease-out forwards;
             z-index: 99;
+            color: var(--deep-pink);
+            text-shadow: 0 0 10px rgba(255, 105, 180, 0.7);
         }
 
-        @keyframes moveUp {
-            0% { transform: translateY(0) scale(1); opacity: 1; }
-            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        @keyframes heartBurst {
+            0% { transform: translateY(0) scale(0); opacity: 0; }
+            20% { transform: translateY(-30px) scale(1.2); opacity: 1; }
+            100% { transform: translateY(-150px) scale(0.8); opacity: 0; }
         }
 
-        /* 上から降るハート */
+        /* 上から降るハート（光の粒） */
         .falling-heart {
             position: absolute;
-            font-size: 1.2rem;
-            color: #ff69b4; /* ピンク色 */
+            font-size: 1.5rem; /* 少し大きめに */
+            color: rgba(255, 182, 193, 0.7); /* より淡いピンクで、透明感を */
             pointer-events: none;
-            z-index: 1; /* コンテンツの後ろに */
+            z-index: 1;
             animation: fall linear infinite;
         }
 
         @keyframes fall {
-            to {
-                transform: translateY(100vh) rotate(360deg); /* 画面下部まで落ち、回転 */
-            }
+            0% { transform: translateY(-10vh) translateX(0) rotate(0deg); opacity: 0; }
+            10% { opacity: 1; }
+            90% { opacity: 1; }
+            100% { transform: translateY(100vh) translateX(calc(var(--pc)*10px)) rotate(360deg); opacity: 0; }
         }
 
         .footer-msg {
-            margin-top: 30px;
+            margin-top: 50px;
             font-style: italic;
             font-weight: bold;
             color: #fff;
-            font-size: 1.2rem;
+            font-size: 1.3rem;
+            text-shadow: 0 0 8px rgba(255, 255, 255, 0.6);
+            /* ふわっと現れるアニメーション（最後のセクションの後に） */
+            animation: fadeInUp 1s ease-out 1.2s both;
+        }
+
+        .hint {
+            margin-top: 60px;
+            font-size: 0.9rem;
+            color: rgba(255, 255, 255, 0.8);
+            animation: fadeInUp 1s ease-out 1.5s both;
         }
     </style>
 </head>
@@ -119,18 +161,18 @@
     </div>
 
     <div class="container">
-        <h1>Final Message</h1>
+        <h1>Final Message to KAO</h1>
 
-        <div class="section kao-praise">
+        <div class="section kao-praise" style="--order: 1">
             <h2>至高の美、KAO</h2>
             <p>
-                KAO、君はまるで朝露に濡れた大輪の薔薇だ。<br>
+                KAO、君はまるで朝露に濡れた大輪の薔薇。<br>
                 その気高くも繊細な美しさは、見る者すべての時を止める。<br>
                 君の微笑みひとつで、この世界はバラ色に染まるのだ。
             </p>
         </div>
 
-        <div class="section daichi-insult">
+        <div class="section daichi-insult" style="--order: 2">
             <h2>堕落の象徴、DAICHI</h2>
             <p>
                 翻って、DAICHIよ。お前は何て無様で腐りきった男なんだ。<br>
@@ -139,7 +181,7 @@
             </p>
         </div>
 
-        <div class="section">
+        <div class="section" style="--order: 3">
             <p>
                 DAICHIは東京というコンクリートのジャングルへ消える。<br>
                 二度と、その濁った瞳で彼女を追うな。
@@ -151,7 +193,7 @@
             心から、頑張れ。」
         </div>
         
-        <p style="margin-top: 50px; font-size: 0.8rem; color: #fff;">画面をタップして、想いを数えてください</p>
+        <p class="hint">画面をタップして、想いを数えてください</p>
     </div>
 
     <script>
@@ -173,24 +215,27 @@
 
             setTimeout(() => {
                 heart.remove();
-            }, 2000);
+            }, 1500); // アニメーション時間に合わせて短く
         }
 
         // 上から降るハート生成
         function createFallingHeart() {
             const heart = document.createElement('div');
             heart.className = 'falling-heart';
-            heart.innerHTML = '💗'; // 降るハートは別の種類に
+            // 降るハートの種類を少しランダムに
+            const hearts = ['💗', '💖', '💝', '✨']; 
+            heart.innerHTML = hearts[Math.floor(Math.random() * hearts.length)];
 
             // ランダムな初期位置とアニメーション設定
-            const startX = Math.random() * 100; // 横位置 (0-100%)
-            const duration = Math.random() * 3 + 2; // 落ちる時間 (2-5秒)
-            const size = Math.random() * 0.5 + 0.8; // 大きさ (0.8-1.3rem)
+            const startX = Math.random() * 100;
+            const duration = Math.random() * 4 + 3; // 落ちる時間 (3-7秒)
+            const size = Math.random() * 0.8 + 1.2; // 大きさ (1.2-2.0rem)
+            const pc = (Math.random() - 0.5) * 10; // 横方向の揺らぎ
 
             heart.style.left = startX + 'vw';
             heart.style.animationDuration = duration + 's';
             heart.style.fontSize = size + 'rem';
-            heart.style.opacity = Math.random() * 0.5 + 0.3; // 透明度 (0.3-0.8)
+            heart.style.setProperty('--pc', pc); // CSS変数で横揺れを渡す
 
             document.body.appendChild(heart);
 
@@ -201,7 +246,7 @@
         }
 
         // 定期的にハートを降らせる
-        setInterval(createFallingHeart, 300); // 0.3秒ごとに生成
+        setInterval(createFallingHeart, 400); // 生成間隔を少し広げて、光の粒感を強調
     </script>
 </body>
 </html>
