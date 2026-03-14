@@ -3,15 +3,17 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
-    <title>Farewell, My Love - KAO | Legacy of DAICHI</title>
+    <title>Farewell, My Love - KAO | Legacy of DAICHI [EVA-STYLE]</title>
     <style>
         :root {
-            --primary-pink: #ffb6c1;
-            --deep-pink: #ff69b4;
-            --dark-pink: #c71585;
-            --flash-blue: #00ffff;
-            --bg-color: #0d0d0d; /* より深い黒 */
-            --text-color: #fff;
+            /* エヴァ風の配色 */
+            --eva-red: #ff0000;
+            --eva-black: #000000;
+            --eva-white: #ffffff;
+            --eva-gray: #333333;
+            --eva-orange: #ff9900;
+            --eva-magenta: #ff00ff;
+            /* ツールバーを除いた高さ */
             --vh: 1vh;
         }
 
@@ -20,18 +22,19 @@
             padding: 0;
             width: 100%;
             height: calc(var(--vh) * 100);
-            background-color: var(--bg-color);
-            font-family: 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
-            color: var(--text-color);
+            background-color: var(--eva-black);
+            /* エヴァ風のフォント設定 */
+            font-family: 'Hiragino Mincho ProN', 'serif', 'HiraMinProN-W6';
+            color: var(--eva-white);
             overflow: hidden;
             position: relative;
         }
 
-        /* --- Opening & Loading Screen (FLASH Style) --- */
+        /* --- Opening & Loading Screen (EVA Style) --- */
         #opening {
             position: fixed;
             top: 0; left: 0; width: 100%; height: 100%;
-            background-color: var(--bg-color);
+            background-color: var(--eva-black);
             display: flex; flex-direction: column; justify-content: center; align-items: center;
             z-index: 2000;
             padding: 20px;
@@ -39,38 +42,55 @@
             transition: transform 0.8s cubic-bezier(0.7, 0, 0.3, 1), opacity 0.5s;
         }
 
+        /* 警告画面（WARNING）風の演出 */
         #prologue-text {
             width: 100%;
-            max-width: 400px;
+            max-width: 450px;
             text-align: center;
-            font-size: 1.1rem;
-            line-height: 2;
-            letter-spacing: 0.1rem;
-            color: var(--primary-pink);
-            text-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
-            margin-bottom: 50px;
-            min-height: 120px; /* テキスト領域の確保 */
+            font-size: 1.2rem;
+            line-height: 2.2;
+            letter-spacing: 0.2rem;
+            color: var(--eva-red);
+            /* 極秘文書のような光沢感 */
+            text-shadow: 0 0 15px rgba(255, 0, 0, 0.7);
+            margin-bottom: 60px;
+            min-height: 150px;
+            position: relative;
+        }
+
+        /* WARNINGの文字を背景に */
+        #prologue-text::before {
+            content: 'WARNING';
+            position: absolute;
+            top: 50%; left: 50%;
+            transform: translate(-50%, -50%) scale(1.5);
+            font-size: 5rem;
+            font-weight: bold;
+            color: rgba(255, 0, 0, 0.05); /* 非常に薄く表示 */
+            z-index: -1;
+            letter-spacing: 1rem;
         }
 
         #loader-container {
-            width: 150px;
-            display: none; /* 最初は隠しておく */
+            width: 180px;
+            display: none;
             flex-direction: column;
             align-items: center;
-            animation: fadeIn 1s forwards;
+            animation: fadeIn 1.2s forwards;
         }
 
+        /* 同期率（SYNCHRONIZATION RATE）風のローディングバー */
         #loader-bar-bg {
-            width: 100%; height: 2px;
-            background: rgba(255, 255, 255, 0.1);
+            width: 100%; height: 3px;
+            background: rgba(255, 0, 0, 0.1);
             position: relative; overflow: hidden;
         }
 
         #loader-bar-fill {
             position: absolute; left: 0; top: 0;
             width: 0%; height: 100%;
-            background: var(--deep-pink);
-            box-shadow: 0 0 15px var(--deep-pink);
+            background: var(--eva-red);
+            box-shadow: 0 0 15px var(--eva-red);
             transition: width 0.3s;
         }
 
@@ -86,7 +106,13 @@
             position: relative;
             padding: env(safe-area-inset-top) 15px env(safe-area-inset-bottom) 15px;
             transform: scale(1.1);
-            transition: all 1s ease-out;
+            transition: all 1.2s ease-out;
+            /* 背景にエヴァのネルフ（NERV）風のマークを */
+            background-image: url('https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/NERV_Logo.svg/128px-NERV_Logo.svg.png');
+            background-repeat: no-repeat;
+            background-position: center 30%;
+            background-size: 150px;
+            background-blend-mode: overlay; /* 背景とブレンド */
         }
 
         #main-content.active {
@@ -94,19 +120,64 @@
             transform: scale(1);
         }
 
-        /* カウンター・セクションなどは前回のデザインを継承（省略・最適化） */
+        /* カウンター・セクションなどはエヴァ風にリデザイン */
         #bg-canvas { position: absolute; top: 0; left: 0; width: 100%; height: 100%; z-index: 1; }
-        .counter-box { align-self: flex-end; margin-top: 10px; background: rgba(0,0,0,0.6); padding: 5px 12px; border-radius: 4px; font-family: monospace; font-size: 0.8rem; color: var(--flash-blue); box-shadow: 0 0 8px var(--flash-blue); border: 1px solid var(--flash-blue); }
-        .content-inner { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; width: 100%; }
-        h1.flash-text { font-size: 1.8rem; margin: 0; color: #fff; text-shadow: 0 0 15px var(--deep-pink); }
-        .section { background: rgba(255, 255, 255, 0.08); padding: 15px; border-radius: 12px; backdrop-filter: blur(8px); border: 1px solid rgba(255, 255, 255, 0.1); width: 100%; max-width: 320px; box-sizing: border-box; }
-        .kao-praise { border-left: 4px solid var(--deep-pink); }
-        .daichi-insult { border-left: 4px solid #555; background: rgba(0,0,0,0.4); }
-        .footer-msg { font-weight: bold; color: #fff; font-size: 0.95rem; text-shadow: 0 0 8px rgba(255, 255, 255, 0.6); text-align: center; }
+        
+        .counter-box {
+            align-self: flex-end; margin-top: 10px;
+            background: rgba(0, 0, 0, 0.8); padding: 6px 15px; border-radius: 2px;
+            font-family: monospace; font-size: 0.9rem;
+            color: var(--eva-orange);
+            box-shadow: 0 0 12px var(--eva-orange);
+            border: 2px solid var(--eva-orange);
+            letter-spacing: 0.1rem;
+        }
 
-        /* タップハート */
-        .tap-heart { position: absolute; font-size: 2.5rem; pointer-events: none; z-index: 99; color: var(--deep-pink); text-shadow: 0 0 15px var(--deep-pink); animation: heartBurst 1s ease-out forwards; }
-        @keyframes heartBurst { 0% { transform: scale(0); opacity: 0; } 20% { transform: scale(1.2); opacity: 1; } 100% { transform: scale(1) translateY(-120px); opacity: 0; } }
+        .content-inner { flex: 1; display: flex; flex-direction: column; justify-content: space-evenly; align-items: center; width: 100%; }
+        
+        h1.flash-text {
+            font-size: 2rem; margin: 0;
+            color: var(--eva-white);
+            text-shadow: 0 0 20px var(--eva-red);
+            font-family: 'Hiragino Mincho ProN', 'serif';
+        }
+
+        .section {
+            background: rgba(255, 0, 0, 0.05); /* 非常に薄い赤背景 */
+            padding: 18px; border-radius: 5px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 0, 0, 0.2);
+            width: 100%; max-width: 340px; box-sizing: border-box;
+        }
+        
+        .section h2 { font-size: 1.2rem; margin-top: 0; margin-bottom: 10px; font-family: 'Hiragino Mincho ProN', 'serif'; }
+        .section p { font-size: 0.9rem; margin: 0; line-height: 1.6; color: var(--eva-white); }
+
+        .kao-praise { border-left: 5px solid var(--eva-magenta); } /* マゼンタで美しさを */
+        .kao-praise h2 { color: var(--eva-magenta); text-shadow: 0 0 10px var(--eva-magenta); }
+        
+        .daichi-insult { border-left: 5px solid var(--eva-gray); background: rgba(0, 0, 0, 0.6); } /* 灰色で堕落を */
+        .daichi-insult h2 { color: var(--eva-gray); }
+
+        .footer-msg {
+            font-weight: bold; color: var(--eva-white); font-size: 1.1rem;
+            text-shadow: 0 0 12px rgba(255, 255, 255, 0.8); text-align: center;
+            font-family: 'Hiragino Mincho ProN', 'serif';
+        }
+
+        /* タップハート：より衝撃的に */
+        .tap-heart {
+            position: absolute; font-size: 3rem; pointer-events: none; z-index: 99;
+            color: var(--eva-red);
+            text-shadow: 0 0 20px var(--eva-red), 0 0 40px var(--eva-magenta);
+            animation: heartBurstEva 1.2s cubic-bezier(0.23, 1, 0.32, 1) forwards;
+        }
+
+        @keyframes heartBurstEva {
+            0% { transform: scale(0) rotate(0deg); opacity: 0; }
+            10% { transform: scale(1.6) rotate(45deg); opacity: 1; }
+            100% { transform: scale(1) translateY(-180px) rotate(180deg); opacity: 0; filter: blur(10px); }
+        }
     </style>
 </head>
 <body onclick="createHeart(event)">
@@ -115,24 +186,28 @@
         <div id="prologue-text"></div>
         <div id="loader-container">
             <div id="loader-bar-bg"><div id="loader-bar-fill"></div></div>
-            <p style="font-size: 0.6rem; color: var(--deep-pink); margin-top: 10px; letter-spacing: 2px;">SYNCHRONIZING...</p>
+            <p style="font-size: 0.7rem; color: var(--eva-red); margin-top: 12px; letter-spacing: 3px; font-family: monospace;">A10 NERVE SYNCHRONIZING...</p>
         </div>
     </div>
 
     <canvas id="bg-canvas"></canvas>
 
     <div id="main-content">
-        <div class="counter-box">DAICHI_TRACKS // MEMORY: <span id="count">0</span></div>
+        <div class="counter-box">ID:DAICHI_EVA // KA0_SYNC: <span id="count">00.0</span>%</div>
+        
         <div class="content-inner">
-            <h1 class="flash-text">Farewell Legacy</h1>
+            <h1 class="flash-text">FAREWELL LEGACY</h1>
+            
             <div class="section kao-praise">
-                <h2 style="font-size:1.1rem; color:var(--primary-pink);">至高の美、KAO</h2>
-                <p style="font-size:0.85rem;">君は朝露に濡れた大輪の薔薇だ。<br>その微笑みひとつで、この世界はバラ色に染まる。</p>
+                <h2>至高の美、KAO</h2>
+                <p>君は朝露に濡れた大輪の薔薇だ。<br>その微笑みひとつで、<br>この世界はバラ色に染まる。</p>
             </div>
+            
             <div class="section daichi-insult">
-                <h2 style="font-size:1.1rem; color:#888;">堕落の男、DAICHI</h2>
-                <p style="font-size:0.85rem;">無様で腐りきった、泥の中の石ころ。<br>光に触れる資格など、お前にはない。</p>
+                <h2>堕落の男、DAICHI</h2>
+                <p>無様で腐りきった、泥の中の石ころ。<br>光に触れる資格など、<br>お前にはない。</p>
             </div>
+            
             <div class="footer-msg">
                 「KAO、君の未来が輝きますように。<br>頑張れ。」
             </div>
@@ -147,10 +222,13 @@
         window.addEventListener('resize', setVh);
         setVh();
 
-        const prologue = [
-            "かつて、僕は愛していた。",
+        // エヴァ風のプロローグ
+        const prologueEva = [
+            "西暦202X年、人類は未だ…",
+            "失われた愛の、その真実を知らない。",
+            "僕は、ただ愛していた。",
             "KAOという、最高に美しい女性を。",
-            "それは、何物にも代えがたい時間だった。"
+            "これは、僕という「存在」の、最期の記録である。"
         ];
 
         const textElement = document.getElementById('prologue-text');
@@ -158,63 +236,74 @@
         const loaderBar = document.getElementById('loader-bar-fill');
         const opening = document.getElementById('opening');
         const mainContent = document.getElementById('main-content');
+        const countDisplay = document.getElementById('count');
 
-        // タイピングアニメーション
+        // タイピングアニメーション（エヴァ風に少し速く、緊迫感を）
         async function typeText(text) {
             for (let i = 0; i <= text.length; i++) {
                 textElement.innerText = text.slice(0, i);
-                await new Promise(r => setTimeout(r, 70));
+                await new Promise(r => setTimeout(r, 60));
             }
-            await new Promise(r => setTimeout(r, 1000));
+            await new Promise(r => setTimeout(r, 800));
         }
 
-        async function startOpening() {
-            for (let line of prologue) {
+        async function startOpeningEva() {
+            for (let line of prologueEva) {
                 await typeText(line);
-                if (line !== prologue[prologue.length - 1]) {
+                if (line !== prologueEva[prologueEva.length - 1]) {
                     textElement.style.opacity = 0;
-                    await new Promise(r => setTimeout(r, 500));
+                    await new Promise(r => setTimeout(r, 400));
                     textElement.style.opacity = 1;
                 }
             }
 
-            // プロローグ終了後にローディング表示
+            // プロローグ終了後に同期率（ローディング）表示
             loaderContainer.style.display = 'flex';
             let progress = 0;
             const interval = setInterval(() => {
-                progress += 5;
+                progress += 4.5; // 少し刻んで同期率っぽく
                 loaderBar.style.width = progress + '%';
+                // 同期率をカウンターに表示
+                countDisplay.innerText = progress.toFixed(1);
+                
                 if (progress >= 100) {
                     clearInterval(interval);
-                    finishOpening();
+                    countDisplay.innerText = "100.0";
+                    // 一瞬「COMPLETE」の文字を
+                    textElement.innerText = "SYNCHRONIZATION COMPLETE";
+                    textElement.style.color = "var(--eva-white)";
+                    textElement.style.textShadow = "0 0 20px var(--eva-red)";
+                    
+                    setTimeout(finishOpeningEva, 1500);
                 }
-            }, 50);
+            }, 60);
         }
 
-        function finishOpening() {
-            opening.style.transform = 'translateY(-100%)';
+        function finishOpeningEva() {
+            opening.style.transform = 'translateY(-100%) scale(0.8)';
+            opening.style.opacity = '0';
             mainContent.classList.add('active');
             initCanvas();
         }
 
-        window.addEventListener('load', startOpening);
+        window.addEventListener('load', startOpeningEva);
 
-        // --- Canvas Background (前回の軽量版を継承) ---
+        // --- Canvas Background (エヴァ風に光の粒子を赤に) ---
         const canvas = document.getElementById('bg-canvas');
         const ctx = canvas.getContext('2d');
         let particles = [];
         function initCanvas() {
             canvas.width = window.innerWidth;
             canvas.height = window.innerHeight;
-            particles = Array.from({length: 40}, () => ({
+            particles = Array.from({length: 30}, () => ({
                 x: Math.random() * canvas.width, y: Math.random() * canvas.height,
-                s: Math.random() * 2 + 1, vx: Math.random() * 0.6 - 0.3, vy: Math.random() * 0.6 - 0.3
+                s: Math.random() * 2.5 + 1.5, vx: Math.random() * 0.8 - 0.4, vy: Math.random() * 0.8 - 0.4
             }));
             animate();
         }
         function animate() {
             ctx.clearRect(0, 0, canvas.width, canvas.height);
-            ctx.fillStyle = "rgba(255, 182, 193, 0.5)";
+            ctx.fillStyle = "rgba(255, 0, 0, 0.4)"; // 赤い光の粒子
             particles.forEach(p => {
                 p.x += p.vx; p.y += p.vy;
                 if(p.x < 0 || p.x > canvas.width) p.vx *= -1;
@@ -224,16 +313,18 @@
             requestAnimationFrame(animate);
         }
 
-        // タップカウンター
+        // タップカウンター：同期率（SYNC）として
         let count = 0;
         function createHeart(e) {
             count++;
-            document.getElementById('count').innerText = count;
+            // 劇中の同期率の数字を参考に、タップでSYNCを上げる
+            // countDisplay.innerText = (count * 1.5 + 100).toFixed(1); // 100%からスタート
+            
             const h = document.createElement('div');
             h.className = 'tap-heart'; h.innerHTML = '❤️';
-            h.style.left = (e.clientX - 20) + 'px'; h.style.top = (e.clientY - 20) + 'px';
+            h.style.left = (e.clientX - 25) + 'px'; h.style.top = (e.clientY - 25) + 'px';
             document.body.appendChild(h);
-            setTimeout(() => h.remove(), 1000);
+            setTimeout(() => h.remove(), 1200);
         }
     </script>
 </body>
