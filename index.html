@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Goodbye KAO, From DAICHI</title>
+    <style>
+        :root {
+            --primary-pink: #ffafbd;
+            --deep-pink: #ffc3a0;
+            --text-color: #4a4a4a;
+        }
+
+        body {
+            margin: 0;
+            padding: 0;
+            background: linear-gradient(135deg, var(--primary-pink), var(--deep-pink));
+            font-family: 'Helvetica Neue', Arial, 'Hiragino Kaku Gothic ProN', 'Hiragino Sans', sans-serif;
+            color: var(--text-color);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            overflow-x: hidden;
+            text-align: center;
+        }
+
+        .container {
+            padding: 40px 20px;
+            width: 100%;
+            box-sizing: border-box;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            color: #fff;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.1);
+            margin-bottom: 30px;
+        }
+
+        .section {
+            background: rgba(255, 255, 255, 0.7);
+            padding: 25px;
+            border-radius: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.05);
+            backdrop-filter: blur(5px);
+        }
+
+        .kao-praise {
+            border-left: 5px solid #ff1493;
+        }
+        .kao-praise h2 { color: #ff1493; }
+
+        .daichi-insult {
+            border-left: 5px solid #555;
+            background: rgba(0, 0, 0, 0.05);
+        }
+        .daichi-insult h2 { color: #333; }
+
+        .counter-box {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            padding: 10px 20px;
+            border-radius: 50px;
+            font-weight: bold;
+            color: #ff1493;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .heart {
+            position: absolute;
+            font-size: 2rem;
+            pointer-events: none;
+            animation: moveUp 2s ease-out forwards;
+            z-index: 99;
+        }
+
+        @keyframes moveUp {
+            0% { transform: translateY(0) scale(1); opacity: 1; }
+            100% { transform: translateY(-200px) scale(1.5); opacity: 0; }
+        }
+
+        .footer-msg {
+            margin-top: 30px;
+            font-style: italic;
+            font-weight: bold;
+            color: #fff;
+            font-size: 1.2rem;
+        }
+    </style>
+</head>
+<body onclick="createHeart(event)">
+
+    <div class="counter-box">
+        KAOへの想い: <span id="count">0</span>
+    </div>
+
+    <div class="container">
+        <h1>Final Message</h1>
+
+        <div class="section kao-praise">
+            <h2>至高の美、KAO</h2>
+            <p>
+                KAO、君はまるで朝露に濡れた大輪の薔薇だ。<br>
+                その気高くも繊細な美しさは、見る者すべての時を止める。<br>
+                君の微笑みひとつで、この世界はバラ色に染まるのだ。
+            </p>
+        </div>
+
+        <div class="section daichi-insult">
+            <h2>堕落の象徴、DAICHI</h2>
+            <p>
+                翻って、DAICHIよ。お前は何て無様で腐りきった男なんだ。<br>
+                KAOという光に触れることすらおこがましい、泥の中に沈む石ころ。<br>
+                身の程を知れ。お前のような男に、彼女を語る資格などない。
+            </p>
+        </div>
+
+        <div class="section">
+            <p>
+                DAICHIは東京というコンクリートのジャングルへ消える。<br>
+                二度と、その濁った瞳で彼女を追うな。
+            </p>
+        </div>
+
+        <div class="footer-msg">
+            「KAO、君の未来が輝きに満ちたものでありますように。<br>
+            心から、頑張れ。」
+        </div>
+        
+        <p style="margin-top: 50px; font-size: 0.8rem; color: #fff;">画面をタップして、想いを数えてください</p>
+    </div>
+
+    <script>
+        let count = 0;
+        const countDisplay = document.getElementById('count');
+
+        function createHeart(e) {
+            count++;
+            countDisplay.innerText = count;
+
+            const heart = document.createElement('div');
+            heart.className = 'heart';
+            heart.innerHTML = '❤️';
+            heart.style.left = (e.clientX - 15) + 'px';
+            heart.style.top = (e.clientY - 15) + 'px';
+            
+            // ランダムな方向に少し散らす
+            const randomX = (Math.random() - 0.5) * 100;
+            heart.style.setProperty('--x', `${randomX}px`);
+
+            document.body.appendChild(heart);
+
+            setTimeout(() => {
+                heart.remove();
+            }, 2000);
+        }
+    </script>
+</body>
+</html>
